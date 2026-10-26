@@ -1,0 +1,44 @@
+{
+  "source": "C:\\Users\\20564\\Documents\\Codex\\2026-10-23\\w\\outputs\\KRUSTY_Anatomy_3D_20261025_01\\KRUSTY_3D.html",
+  "sourceBytes": 25583439,
+  "sourceSha256": "08e9b3c958970a45e9d173412725092758d8164bf52ee0e97cb7cb01c89299fc",
+  "outputBytes": 288299,
+  "outputSha256": "5ee0b3d15d5cd7f18ee351a17231b837264be60b909fbb303702f112e6603886",
+  "payload": "pos-f32+nor-i8 (stride 16)",
+  "payloadTotal": 15727323,
+  "packets": [
+    {
+      "mode": "full",
+      "verts": 2530572,
+      "triangles": 843524,
+      "parts": 399,
+      "deflateIn": 8408122,
+      "payloadBytes": 40489152,
+      "gzOut": 7015869,
+      "normalErrMeanDeg": 0.0569,
+      "normalErrMaxDeg": 0.2529
+    },
+    {
+      "mode": "quarter",
+      "verts": 1896624,
+      "triangles": 632208,
+      "parts": 348,
+      "deflateIn": 6417517,
+      "payloadBytes": 30345984,
+      "gzOut": 5321010,
+      "normalErrMeanDeg": 0.0568,
+      "normalErrMaxDeg": 0.2529
+    },
+    {
+      "mode": "half",
+      "verts": 1260648,
+      "triangles": 420216,
+      "parts": 273,
+      "deflateIn": 4158407,
+      "payloadBytes": 20170368,
+      "gzOut": 3390444,
+      "normalErrMeanDeg": 0.0568,
+      "normalErrMaxDeg": 0.2529
+    }
+  ]
+}
