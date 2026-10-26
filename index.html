@@ -1015,15 +1015,15 @@ async function init(){try{
  SCENE.cells.forEach(c=>$('#cell').add(new Option(`Cell ${c.id} · ${c.cn_title||c.name||SCENE.materials[c.material]?.name||''}`,c.id)));
  for(const [g,n]of Object.entries(SCENE.groups))$('#n-'+g).textContent=n;
  await loadMode(state.mode);bind();new ResizeObserver(()=>render()).observe(canvas);sync();render();return true;
- }catch(e){$('#loading').textContent=e.message;console.error(e);throw e}}
+ }catch(e){const le=$('#loading');if(!le.dataset.fail)le.textContent=e.message;console.error(e);throw e}}
 async function loadMode(mode){
  const token=++busy;const meta=SCENE.packets[mode];const el=$('#loading');el.hidden=false;
  const mb=n=>{n=Math.max(0,n||0);return n>=1048576?(n/1048576).toFixed(1)+' MB':Math.round(n/1024)+' KB'};
  el.textContent='载入几何… '+mb(meta.bytes);
  let res;
  try{res=await fetch(meta.file,{credentials:'same-origin',cache:'force-cache'})}
- catch(e){el.textContent=location.protocol==='file:'?'本地双击打开无法读取几何数据（浏览器安全限制），请用本地 http 服务器或在线地址打开。':'几何数据载入失败：'+e.message+'（请检查网络后刷新）';throw e}
- if(!res.ok){el.textContent='几何数据载入失败：HTTP '+res.status+'（请刷新重试）';throw Error('HTTP '+res.status)}
+ catch(e){el.dataset.fail='1';el.textContent=location.protocol==='file:'?'本地双击打开无法读取几何数据（浏览器安全限制），请用本地 http 服务器或在线地址打开。':'几何数据载入失败：'+e.message+'（请检查网络后刷新）';throw e}
+ if(!res.ok){el.dataset.fail='1';el.textContent='几何数据载入失败：HTTP '+res.status+'（请刷新重试）';throw Error('HTTP '+res.status)}
  const total=+res.headers.get('content-length')||meta.bytes;
  let got=0;const chunks=[];
  const reader=res.body&&res.body.getReader?res.body.getReader():null;

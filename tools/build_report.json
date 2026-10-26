@@ -2,8 +2,8 @@
   "source": "C:\\Users\\20564\\Documents\\Codex\\2026-10-23\\w\\outputs\\KRUSTY_Anatomy_3D_20261025_01\\KRUSTY_3D.html",
   "sourceBytes": 25583439,
   "sourceSha256": "08e9b3c958970a45e9d173412725092758d8164bf52ee0e97cb7cb01c89299fc",
-  "outputBytes": 288299,
-  "outputSha256": "5ee0b3d15d5cd7f18ee351a17231b837264be60b909fbb303702f112e6603886",
+  "outputBytes": 288371,
+  "outputSha256": "410b79f0f3526f9439c433a4677b55c0fbe34ecb5009fa1e849096efa2123d02",
   "payload": "pos-f32+nor-i8 (stride 16)",
   "payloadTotal": 15727323,
   "packets": [

@@ -67,7 +67,14 @@ try {
   let readyAt = null;
   for (let n = 0; n < 300; n++) { if (await evaluate('Boolean(window.__krusty)')) { readyAt = Date.now() - t0; break; } await sleep(100); }
   if (readyAt === null) { console.log(JSON.stringify({errors, body: await evaluate('document.body.innerText.slice(-800)')}, null, 2)); throw Error('viewer not initialized'); }
-  await evaluate('window.__krusty.ready');
+  let readyErr = null;
+  try { await evaluate('window.__krusty.ready'); } catch (e) { readyErr = e; }
+  const drawnParts = readyErr ? 0 : await evaluate('window.__krusty.metrics().drawnParts');
+  if (readyErr || !(drawnParts > 0)) {
+    const txt = await evaluate("(document.querySelector('#loading')||{}).textContent||''");
+    console.log(JSON.stringify({errors, loadingText: txt, readyError: readyErr ? String(readyErr).slice(0, 300) : null, drawnParts}, null, 2));
+    throw Error('geometry did not load; loading text: ' + txt);
+  }
   const loadedAt = await evaluate('performance.now()');
   await sleep(400);
   const shot = async name => { const r = await send('Page.captureScreenshot', {format: 'png', captureBeyondViewport: true, fromSurface: true}); writeFileSync(join(outDir, name), Buffer.from(r.data, 'base64')); };

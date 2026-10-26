@@ -79,8 +79,8 @@ const loadNew = `async function loadMode(mode){
  el.textContent='载入几何… '+mb(meta.bytes);
  let res;
  try{res=await fetch(meta.file,{credentials:'same-origin',cache:'force-cache'})}
- catch(e){el.textContent=location.protocol==='file:'?'本地双击打开无法读取几何数据（浏览器安全限制），请用本地 http 服务器或在线地址打开。':'几何数据载入失败：'+e.message+'（请检查网络后刷新）';throw e}
- if(!res.ok){el.textContent='几何数据载入失败：HTTP '+res.status+'（请刷新重试）';throw Error('HTTP '+res.status)}
+ catch(e){el.dataset.fail='1';el.textContent=location.protocol==='file:'?'本地双击打开无法读取几何数据（浏览器安全限制），请用本地 http 服务器或在线地址打开。':'几何数据载入失败：'+e.message+'（请检查网络后刷新）';throw e}
+ if(!res.ok){el.dataset.fail='1';el.textContent='几何数据载入失败：HTTP '+res.status+'（请刷新重试）';throw Error('HTTP '+res.status)}
  const total=+res.headers.get('content-length')||meta.bytes;
  let got=0;const chunks=[];
  const reader=res.body&&res.body.getReader?res.body.getReader():null;
@@ -107,6 +107,12 @@ const loadNew = `async function loadMode(mode){
  el.hidden=true;window.__krusty.loadedAt=performance.now()}`;
 if (!out.includes(loadOld)) throw new Error('loadMode source not found');
 out = out.replace(loadOld, loadNew);
+
+// --- keep the friendly failure text: the inherited init() catch must not overwrite it with a bare error message ---
+const initCatchOld = "}catch(e){$('#loading').textContent=e.message;console.error(e);throw e}}";
+const initCatchNew = "}catch(e){const le=$('#loading');if(!le.dataset.fail)le.textContent=e.message;console.error(e);throw e}}";
+if (!out.includes(initCatchOld)) throw new Error('init catch source not found');
+out = out.replace(initCatchOld, initCatchNew);
 
 writeFileSync(join(outDir, 'index.html'), out);
 console.log('index.html ->', MB(Buffer.byteLength(out)));
